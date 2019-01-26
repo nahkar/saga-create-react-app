@@ -1,0 +1,3 @@
+export const GET_CAT_REQUEST = 'GET_CAT_REQUEST';
+export const GET_CAT_SUCCESS = 'GET_CAT_SUCCESS';
+export const GET_CAT_FAILURE = 'GET_CAT_FAILURE';

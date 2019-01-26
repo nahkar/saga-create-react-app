@@ -1,28 +1,51 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { connect } from 'react-redux';
+import { requestDog } from './redux/dog/actions';
+import { requestCat } from './redux/cat/actions';
 class App extends Component {
+  componentDidMount() {
+    const { getRandomDogImage, getRandomCatImage } = this.props;
+    getRandomDogImage();
+    getRandomCatImage();
+  }
+  changeDog = () => {
+    const { getRandomDogImage } = this.props;
+    getRandomDogImage();
+  };
+  changeCat = () => {
+    const { getRandomCatImage } = this.props;
+    getRandomCatImage();
+  };
   render() {
+    const {
+      dogReducer: { url: dogUrl, isLoading: dogisLoading },
+      catReducer: { url: catUrl, isLoading: catIsloading }
+    } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <React.Fragment>
+        <div className="dogContainer">
+          <button onClick={this.changeDog}>Change Image of Dog</button>
+          {dogisLoading && <p>Loading .... </p>}
+          <div>
+            <img src={dogUrl} alt="" />
+          </div>
+        </div>
+        <div className="dogContainer">
+          <button onClick={this.changeCat}>Change Image of Cat</button>
+          {catIsloading && <p>Loading .... </p>}
+          <div>
+            <img src={catUrl} alt="" />
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
 
-export default App;
+export default connect(
+  state => state,
+  {
+    getRandomDogImage: requestDog,
+    getRandomCatImage: requestCat
+  }
+)(App);
